@@ -1,6 +1,7 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class Coin : MonoBehaviour, IItem
+public class Coin : MonoBehaviourPun, IItem
 {
     public int score = 200; // 증가할 점수
 
@@ -9,6 +10,6 @@ public class Coin : MonoBehaviour, IItem
         GameManager.instance.AddScore(score);
 
         // 사용되었으므로 자신을 파괴
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
     }
 }

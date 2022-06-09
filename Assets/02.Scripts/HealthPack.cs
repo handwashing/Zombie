@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class HealthPack : MonoBehaviour, IItem
+public class HealthPack : MonoBehaviourPun, IItem
 {
-    public int health = 50; // 체력을 회복할 수치
+    public float health = 50; // 체력을 회복할 수치
 
     public void Use(GameObject target)
     {

@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
 using UnityEngine;
 
 // 주어진 Gun 오브젝트를 쏘거나 재장전
 // 알맞은 애니메이션을 재생하고 IK를 사용해 캐릭터 
 // 양손이 총에 위치하도록 조정
-public class PlayerShooter : MonoBehaviour
+public class PlayerShooter : MonoBehaviourPun
 {
     public Gun gun; // 사용할 총
     public Transform gunPivot; // 총 배치의 기준점
@@ -15,7 +14,7 @@ public class PlayerShooter : MonoBehaviour
     private PlayerInput playerInput; // 플레이어의 입력
     private Animator playerAnimator; // 애니메이터 컴포넌트
 
-    void Start()
+    private void Start()
     {
         // 사용할 컴포넌트 가져오기
         playerInput = GetComponent<PlayerInput>();
@@ -32,14 +31,21 @@ public class PlayerShooter : MonoBehaviour
         gun.gameObject.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
-        // 입력을 감지하고 총을 발사하거나 재장전
-        if(playerInput.fire){
+        // 로컬 플레이어만 총을 직접 사격, 탄알 UI 갱신 가능
+        if(!photonView.IsMine)
+        {
+            return;
+        }
+        //입력을 가지하여 총을 발사하거나 재장전
+        if(playerInput.fire)
+        {
             // 발사 입력 감지 시 총 발사
             gun.Fire();
         }
-        else if(playerInput.reload){
+        else if(playerInput.reload)
+        {
             // 재장전 입력 감지 시 재장전
             if(gun.Reload()){
                 // 재장전 성공 시에만 재장전 애니메이션 재생
